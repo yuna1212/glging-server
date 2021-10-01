@@ -8,8 +8,7 @@ const session = require('express-session');
 const dotenv = require('dotenv');
 dotenv.config();
 
-// 페이지 라우터 가져오기
-// const pageRouter = require('./routes/page');
+// 라우터 가져오기
 const loginRouter = require('./routes/login');
 const joinRouter = require('./routes/join');
 const schoolAuthenticationRouter = require('./routes/school-authentication');
@@ -60,7 +59,6 @@ app.use(
 );
 
 // 라우트 연결
-// app.use('/', pageRouter);
 app.use('/login', loginRouter);
 app.use('/join', joinRouter);
 app.use('/school-authentication', schoolAuthenticationRouter);
