@@ -21,7 +21,7 @@ router.post('', async (req, res) => {
       where: { user_id: user_id, password: password },
     });
     // DB에 있다면
-    if (user_in_db.length !== null) {
+    if (user_in_db !== null) {
       login_result.description = '로그인 성공';
       // access, refresh 토큰 발급
       login_result.refresh_token = await tokens.refresh.sign(user_id);
