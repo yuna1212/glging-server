@@ -91,7 +91,7 @@ router.post('/mail/authentication', async (req, res) => {
         result.User.nickname = user_in_db.nickname;
         result.User.student_id = user_in_db.student_id;
         result.User.user_id = user_in_db.user_id;
-        result.User.univ_cert_status = user_in_db.univ_cert_status;
+        result.User.univ_cert_status = 0;
       }
     }
   } catch (err) {
