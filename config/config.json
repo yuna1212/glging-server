@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": "1220",
-    "database": "glgingdb2",
+    "password": "yuna1220",
+    "database": "glgingdb",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
