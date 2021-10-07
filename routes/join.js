@@ -21,8 +21,8 @@ router.post('', async (req, res) => {
     });
     join_result.description = 'successed';
     // access, refresh 토큰 발급
-    join_result.tokens.refresh_token = await tokens.refresh.sign(user_id);
-    join_result.tokens.access_token = await tokens.access.sign(user_id);
+    join_result.refresh_token = await tokens.refresh.sign(user_id);
+    join_result.access_token = await tokens.access.sign(user_id);
   } catch (err) {
     console.error(err);
   }
