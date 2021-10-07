@@ -54,7 +54,7 @@ router.post('/mail/student-id', async (req, res) => {
 
 // 인증번호로 학생 이메일 인증
 router.post('/mail/authentication', async (req, res) => {
-  let result = { description: 'failed' };
+  let result = { description: 'failed', User: {} };
   let userAccessToken = req.body.access_token;
   token = await tokens.access.verify(userAccessToken);
 
@@ -88,6 +88,10 @@ router.post('/mail/authentication', async (req, res) => {
       );
       if (user_update && user_update[0]) {
         result.description = 'successed';
+        result.User.nickname = user_in_db.nickname;
+        result.User.student_id = user_in_db.student_id;
+        result.User.user_id = user_in_db.user_id;
+        result.User.univ_cert_status = user_in_db.univ_cert_status;
       }
     }
   } catch (err) {

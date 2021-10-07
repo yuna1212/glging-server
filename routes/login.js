@@ -13,17 +13,26 @@ router.post('', async (req, res) => {
   let password = req.body.password;
   let login_result = {
     description: '실패',
+    User: {},
   };
   try {
-    const user_in_db = await User.findAll({
+    const user_in_db = await User.findOne({
+      attributes: ['nickname', 'student_id', 'user_id', 'univ_cert_status'],
       where: { user_id: user_id, password: password },
     });
     // DB에 있다면
-    if (user_in_db.length > 0) {
+    if (user_in_db.length !== null) {
       login_result.description = '로그인 성공';
       // access, refresh 토큰 발급
       login_result.refresh_token = await tokens.refresh.sign(user_id);
       login_result.access_token = await tokens.access.sign(user_id);
+      // nickname, student_id, user_id, univ_cert_status 반환\
+      console.log(user_in_db);
+
+      login_result.User.nickname = user_in_db.nickname;
+      login_result.User.student_id = user_in_db.student_id;
+      login_result.User.user_id = user_in_db.user_id;
+      login_result.User.univ_cert_status = user_in_db.univ_cert_status;
     }
     // DB에 없다면
     else {
