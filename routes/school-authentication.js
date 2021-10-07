@@ -16,8 +16,7 @@ router.post('/mail/student-id', async (req, res) => {
   let userAccessToken = req.body.access_token;
   let studentId = req.body.student_id;
 
-  token = await tokens.access.verify(userAccessToken);
-
+  let token = await tokens.access.verify(userAccessToken);
   // 적합하지 않은 토큰이면
   if (TOKEN_EXPIRED === token) {
     result.description = 'token expired';
@@ -54,7 +53,7 @@ router.post('/mail/student-id', async (req, res) => {
 
 // 인증번호로 학생 이메일 인증
 router.post('/mail/authentication', async (req, res) => {
-  let result = { description: 'failed', User: {} };
+  let result = { description: '인증번호가 올바르지 않습니다.' };
   let userAccessToken = req.body.access_token;
   token = await tokens.access.verify(userAccessToken);
 
@@ -87,7 +86,7 @@ router.post('/mail/authentication', async (req, res) => {
         }
       );
       if (user_update && user_update[0]) {
-        result.description = 'successed';
+        result.description = '인증 성공!';
         result.User.nickname = user_in_db.nickname;
         result.User.student_id = user_in_db.student_id;
         result.User.user_id = user_in_db.user_id;
