@@ -9,8 +9,8 @@ app.use(express.json());
 
 // 회원가입
 router.post('', async (req, res) => {
-  let user_id = req.body.user.user_id;
-  let password = req.body.user.password;
+  let user_id = req.body.user_id;
+  let password = req.body.password;
   let join_result = {
     description: 'failed',
     tokens: { access_token: null, refresh_token: null },

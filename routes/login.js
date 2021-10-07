@@ -9,8 +9,8 @@ app.use(express.json());
 
 // 로그인
 router.post('', async (req, res) => {
-  let user_id = req.body.user.user_id;
-  let password = req.body.user.password;
+  let user_id = req.body.user_id;
+  let password = req.body.password;
   let login_result = {
     description: '실패',
     tokens: { access_token: null, refresh_token: null },
@@ -23,8 +23,8 @@ router.post('', async (req, res) => {
     if (user_in_db.length > 0) {
       login_result.description = '로그인 성공';
       // access, refresh 토큰 발급
-      login_result.tokens.refresh_token = await tokens.refresh.sign(user_id);
-      login_result.tokens.access_token = await tokens.access.sign(user_id);
+      login_result.refresh_token = await tokens.refresh.sign(user_id);
+      login_result.access_token = await tokens.access.sign(user_id);
     }
     // DB에 없다면
     else {
