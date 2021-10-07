@@ -12,7 +12,7 @@ dotenv.config();
 const loginRouter = require('./routes/login');
 const joinRouter = require('./routes/join');
 const schoolAuthenticationRouter = require('./routes/school-authentication');
-const refreshRouter = require('./routes/refresh-token');
+const refreshRouter = require('./routes/access-token');
 
 // MySQL 설정 설정
 const { sequelize } = require('./models/index');
