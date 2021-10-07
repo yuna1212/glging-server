@@ -13,7 +13,6 @@ router.post('', async (req, res) => {
   let password = req.body.password;
   let join_result = {
     description: 'failed',
-    tokens: { access_token: null, refresh_token: null },
   };
   try {
     await User.create({

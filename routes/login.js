@@ -13,7 +13,6 @@ router.post('', async (req, res) => {
   let password = req.body.password;
   let login_result = {
     description: '실패',
-    tokens: { access_token: null, refresh_token: null },
   };
   try {
     const user_in_db = await User.findAll({
