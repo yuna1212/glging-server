@@ -56,7 +56,7 @@ app.use(
 app.use('/login', loginRouter);
 app.use('/join', joinRouter);
 app.use('/school-authentication', schoolAuthenticationRouter);
-app.use('/refresh-token', refreshRouter);
+app.use('/access-token', refreshRouter);
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
