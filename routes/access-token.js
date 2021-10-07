@@ -11,7 +11,6 @@ const TOKEN_INVALID = require('../modules/token').TOKEN_INVALID;
 app.use(express.json());
 
 router.get('', async (req, res) => {
-  con;
   let result = { description: 'failed' };
   let userRefreshToken = req.query.refresh_token;
 
