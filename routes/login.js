@@ -12,7 +12,7 @@ router.post('', async (req, res) => {
   let user_id = req.body.user.user_id;
   let password = req.body.user.password;
   let login_result = {
-    description: 'failed',
+    description: '실패',
     tokens: { access_token: null, refresh_token: null },
   };
   try {
@@ -21,14 +21,14 @@ router.post('', async (req, res) => {
     });
     // DB에 있다면
     if (user_in_db.length > 0) {
-      login_result.description = 'successed';
+      login_result.description = '로그인 성공';
       // access, refresh 토큰 발급
       login_result.tokens.refresh_token = await tokens.refresh.sign(user_id);
       login_result.tokens.access_token = await tokens.access.sign(user_id);
     }
     // DB에 없다면
     else {
-      login_result.description = 'failed';
+      login_result.description = '아이디 또는 비밀번호가 일치하지 않습니다.';
     }
   } catch (err) {
     console.error(err);
