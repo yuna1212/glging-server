@@ -3,7 +3,7 @@ const app = express();
 const router = express.Router();
 const User = require('../models/user');
 const tokens = require('../modules/token');
-
+const send_mail = require('../modules/mail');
 // Token 실패 코드
 const TOKEN_EXPIRED = require('../modules/token').TOKEN_EXPIRED;
 const TOKEN_INVALID = require('../modules/token').TOKEN_INVALID;
@@ -42,6 +42,7 @@ router.post('/mail/student-id', async (req, res) => {
         }
       );
       // 메일서버에서, student_id에 해당하는 메일로 내용 보내기
+      await send_mail(studentId, auth_num);
       if (user_in_db[0] > 0) result.description = 'successed';
     } catch (err) {
       console.error(err);
