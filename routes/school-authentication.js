@@ -46,6 +46,9 @@ router.post('/mail/student-id', async (req, res) => {
       if (user_in_db[0] > 0) result.description = 'successed';
     } catch (err) {
       console.error(err);
+      if (err.name === 'SequelizeUniqueConstraintError') {
+        result.description = '이미 존재하는 학번입니다.';
+      }
     }
   }
 
