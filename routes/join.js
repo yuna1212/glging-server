@@ -14,12 +14,6 @@ router.post('', async (req, res) => {
   let join_result = {
     success: false,
     description: '회원가입 실패.. 다시 시도해주세요.',
-    user: {
-      nickname: null,
-      student_id: null,
-      user_id: null,
-      univ_cert_status: 2,
-    },
   };
   try {
     await User.create({
@@ -28,6 +22,11 @@ router.post('', async (req, res) => {
     });
     join_result.description = '회원가입 성공!';
     join_result.success = true;
+    join_result.user = {
+      nickname: null,
+      student_id: null,
+      univ_cert_status: 2,
+    };
     // access, refresh 토큰 발급
     join_result.refresh_token = await tokens.refresh.sign(user_id);
     join_result.access_token = await tokens.access.sign(user_id);

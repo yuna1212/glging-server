@@ -14,7 +14,6 @@ router.post('', async (req, res) => {
   let login_result = {
     success: false,
     description: '실패',
-    user: {},
   };
   try {
     const user_in_db = await User.findOne({
@@ -30,7 +29,7 @@ router.post('', async (req, res) => {
       login_result.access_token = await tokens.access.sign(user_id);
       // nickname, student_id, user_id, univ_cert_status 반환
       console.log(user_in_db);
-
+      login_result.user = {};
       login_result.user.nickname =
         user_in_db.univ_cert_status === 0
           ? user_in_db.nickname || user_in_db.student_id
