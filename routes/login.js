@@ -37,7 +37,7 @@ router
         login_result.user = {};
         login_result.user.nickname =
           user_in_db.univ_cert_status === 0
-            ? user_in_db.nickname || user_in_db.student_id
+            ? user_in_db.nickname || user_in_db.student_id.toString()
             : null;
         login_result.user.student_id = user_in_db.student_id;
         login_result.user.user_id = user_in_db.user_id;
@@ -86,7 +86,7 @@ router
         login_result.user = {};
         login_result.user.nickname =
           user_in_db.univ_cert_status === 0
-            ? user_in_db.nickname || user_in_db.student_id
+            ? user_in_db.nickname || user_in_db.student_id.toString()
             : null;
         login_result.user.student_id = user_in_db.student_id;
         login_result.user.user_id = user_in_db.user_id;
