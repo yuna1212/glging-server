@@ -12,6 +12,7 @@ router.post('', async (req, res) => {
   let user_id = req.body.user_id;
   let password = req.body.password;
   let join_result = {
+    success: false,
     description: '회원가입 실패.. 다시 시도해주세요.',
     User: {
       nickname: null,
@@ -26,6 +27,7 @@ router.post('', async (req, res) => {
       password: password,
     });
     join_result.description = '회원가입 성공!';
+    join_result.success = true;
     // access, refresh 토큰 발급
     join_result.refresh_token = await tokens.refresh.sign(user_id);
     join_result.access_token = await tokens.access.sign(user_id);
@@ -39,13 +41,14 @@ router.post('', async (req, res) => {
 // id 중복체크
 router.get('/id', async (req, res) => {
   let user_id = req.query.user_id;
-  let join_result = { is_existing: null };
+  let join_result = { success: false, is_existing: null };
   try {
     const user_in_db = await User.findOne({
       where: { user_id: user_id },
     });
     if (user_in_db === null) {
       join_result.is_existing = false;
+      join_result.success = true;
     } else {
       join_result.is_existing = true;
     }

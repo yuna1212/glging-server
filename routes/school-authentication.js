@@ -12,7 +12,7 @@ const TOKEN_INVALID = require('../modules/token').TOKEN_INVALID;
 app.use(express.json());
 
 router.post('/mail/student-id', async (req, res) => {
-  let result = { description: 'failed' };
+  let result = { success: false, description: 'failed' };
   let userAccessToken = req.body.access_token;
   let studentId = req.body.student_id;
 
@@ -44,6 +44,7 @@ router.post('/mail/student-id', async (req, res) => {
       // 메일서버에서, student_id에 해당하는 메일로 내용 보내기
       await send_mail(studentId, auth_num);
       if (user_in_db[0] > 0) result.description = 'successed';
+      result.success = true;
     } catch (err) {
       console.error(err);
       if (err.name === 'SequelizeUniqueConstraintError') {
@@ -57,7 +58,7 @@ router.post('/mail/student-id', async (req, res) => {
 
 // 인증번호로 학생 이메일 인증
 router.post('/mail/authentication', async (req, res) => {
-  let result = { description: '인증번호가 올바르지 않습니다.' };
+  let result = { success: false, description: '인증번호가 올바르지 않습니다.' };
   let userAccessToken = req.body.access_token;
   token = await tokens.access.verify(userAccessToken);
 
@@ -91,6 +92,7 @@ router.post('/mail/authentication', async (req, res) => {
       );
       if (user_update && user_update[0]) {
         result.description = '인증 성공!';
+        result.success = true;
         result.User.nickname = user_in_db.nickname;
         result.User.student_id = user_in_db.student_id;
         result.User.user_id = user_in_db.user_id;

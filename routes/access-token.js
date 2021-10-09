@@ -11,7 +11,7 @@ const TOKEN_INVALID = require('../modules/token').TOKEN_INVALID;
 app.use(express.json());
 
 router.get('', async (req, res) => {
-  let result = { description: 'failed' };
+  let result = { success: false, description: 'failed' };
   let userRefreshToken = req.query.refresh_token;
 
   token = await tokens.refresh.verify(userRefreshToken);
@@ -27,6 +27,7 @@ router.get('', async (req, res) => {
   userId = token.user_id;
 
   // access 토큰 발급
+  result.success = true;
   result.access_token = await tokens.access.sign(userId);
   result.description = 'successed';
 
