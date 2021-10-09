@@ -93,10 +93,10 @@ router.post('/mail/authentication', async (req, res) => {
       if (user_update && user_update[0]) {
         result.description = '인증 성공!';
         result.success = true;
-        result.User.nickname = user_in_db.nickname;
-        result.User.student_id = user_in_db.student_id;
-        result.User.user_id = user_in_db.user_id;
-        result.User.univ_cert_status = 0;
+        result.user.nickname = user_in_db.nickname;
+        result.user.student_id = user_in_db.student_id;
+        result.user.user_id = user_in_db.user_id;
+        result.user.univ_cert_status = 0;
       }
     }
   } catch (err) {

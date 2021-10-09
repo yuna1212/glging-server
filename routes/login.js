@@ -14,7 +14,7 @@ router.post('', async (req, res) => {
   let login_result = {
     success: false,
     description: '실패',
-    User: {},
+    user: {},
   };
   try {
     const user_in_db = await User.findOne({
@@ -31,13 +31,13 @@ router.post('', async (req, res) => {
       // nickname, student_id, user_id, univ_cert_status 반환
       console.log(user_in_db);
 
-      login_result.User.nickname =
+      login_result.user.nickname =
         user_in_db.univ_cert_status === 0
           ? user_in_db.nickname || user_in_db.student_id
           : null;
-      login_result.User.student_id = user_in_db.student_id;
-      login_result.User.user_id = user_in_db.user_id;
-      login_result.User.univ_cert_status = user_in_db.univ_cert_status;
+      login_result.user.student_id = user_in_db.student_id;
+      login_result.user.user_id = user_in_db.user_id;
+      login_result.user.univ_cert_status = user_in_db.univ_cert_status;
     }
     // DB에 없다면
     else {
