@@ -13,6 +13,12 @@ router.post('', async (req, res) => {
   let password = req.body.password;
   let join_result = {
     description: '회원가입 실패.. 다시 시도해주세요.',
+    User: {
+      nickname: null,
+      student_id: null,
+      user_id: null,
+      univ_cert_status: 2,
+    },
   };
   try {
     await User.create({
@@ -23,10 +29,7 @@ router.post('', async (req, res) => {
     // access, refresh 토큰 발급
     join_result.refresh_token = await tokens.refresh.sign(user_id);
     join_result.access_token = await tokens.access.sign(user_id);
-    join_result.User.nickname = user_in_db.nickname;
-    join_result.User.student_id = user_in_db.student_id;
-    join_result.User.user_id = user_in_db.user_id;
-    join_result.User.univ_cert_status = user_in_db.univ_cert_status;
+    join_result.User.user_id = user_id;
   } catch (err) {
     console.error(err);
   }
