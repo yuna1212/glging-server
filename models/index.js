@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 const env = process.env.NODE_ENV || 'development';
 const config = require('../config/config.json')[env];
 const User = require('./user');
-const Plogging = require('./ploggings');
+const Plogging = require('./plogging');
 const Litter = require('./litter');
 
 const db = {};
