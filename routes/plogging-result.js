@@ -70,14 +70,15 @@ router.post('', upload.single('image'), async (req, res) => {
           res.json(ploggingUpdateResult);
         })
         .catch((err) => {
-          ploggingUpdateResult.description = '플로깅 정보가 올바르지 않습니다.';
+          ploggingUpdateResult.description =
+            '플로깅 정보를 서버에 저장하지 못했습니다.';
           console.error(err);
           res.json(ploggingUpdateResult);
         });
     })
     .catch((err) => {
       ploggingUpdateResult.description =
-        '쓰레기 개수 형식이 올바르지 않습니다.';
+        '플로깅 정보를 서버에 저장하지 못했습니다.';
       console.error(err);
       res.json(ploggingUpdateResult);
     });
