@@ -4,6 +4,7 @@ const multer = require('multer');
 const Litter = require('../models/litter');
 const Plogging = require('../models/plogging');
 const tokens = require('../modules/token');
+const moment = require('moment-timezone');
 // Token 실패 코드
 const TOKEN_EXPIRED = require('../modules/token').TOKEN_EXPIRED;
 const TOKEN_INVALID = require('../modules/token').TOKEN_INVALID;
@@ -59,7 +60,7 @@ router.post('', upload.single('image'), async (req, res) => {
         litter: litter_id,
         duration_time: req.body.duration_time,
         distance: req.body.distance,
-        date: req.body.date,
+        date: moment().tz('Asia/Seoul').format('YYYY-MM-DD'),
         photo: req.file.filename,
       })
         .then((result) => {
