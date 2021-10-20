@@ -71,6 +71,7 @@ router
             ploggingUpdateResult.description =
               '플로깅 결과를 서버에 저장했습니다.';
             console.log('플로깅결과 저장');
+            ploggingUpdateResult.plogging_id = plogging_result.id;
             res.json(ploggingUpdateResult);
           })
           .catch((err) => {
