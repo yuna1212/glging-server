@@ -187,6 +187,11 @@ router.get('', async (req, res) => {
     }
   }
   result.history = logs;
+  if (!result.abstracts.length && !result.history.length) {
+    delete result.abstracts;
+    delete result.history;
+    result.description = '플로깅 기록이 없습니다.';
+  }
   res.json(result);
 });
 module.exports = router;
