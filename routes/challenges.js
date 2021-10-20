@@ -121,7 +121,7 @@ router.get('', async (req, res) => {
   }
 
   // 유저와 관계있는 챌린지 정보 가져오기
-  // 기본 챌린지
+  // 기본 챌린지 가져오기
   let challenge_info;
   try {
     challenge_info = await Challenge.findAll({
@@ -149,6 +149,7 @@ router.get('', async (req, res) => {
   challenge_info.forEach((value, index, array) => {
     let challenge = {};
     challenge.title = value.title;
+    challenge.kind = value.kind;
     challenge.content = {
       duration_time: value.duration_time,
       distance_hakyo: value.distance_hakyo,
