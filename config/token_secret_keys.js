@@ -14,7 +14,7 @@ const access_option = {
   secretKey: process.env.JWT_ACCESS_SECRET_KEY,
   option: {
     algorithm: 'HS256',
-    expiresIn: '180m',
+    expiresIn: '60 days',
     issuer: 'plogging_server',
   },
 };

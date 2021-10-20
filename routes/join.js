@@ -9,21 +9,28 @@ app.use(express.json());
 
 // 회원가입
 router.post('', async (req, res) => {
-  let user_id = req.body.user.user_id;
-  let password = req.body.user.password;
+  let user_id = req.body.user_id;
+  let password = req.body.password;
   let join_result = {
-    description: 'failed',
-    tokens: { access_token: null, refresh_token: null },
+    success: false,
+    description: '회원가입 실패.. 다시 시도해주세요.',
   };
   try {
     await User.create({
       user_id: user_id,
       password: password,
     });
-    join_result.description = 'successed';
+    join_result.description = '회원가입 성공!';
+    join_result.success = true;
+    join_result.user = {
+      nickname: null,
+      student_id: null,
+      univ_cert_status: 2,
+    };
     // access, refresh 토큰 발급
-    join_result.tokens.refresh_token = await tokens.refresh.sign(user_id);
-    join_result.tokens.access_token = await tokens.access.sign(user_id);
+    join_result.refresh_token = await tokens.refresh.sign(user_id);
+    join_result.access_token = await tokens.access.sign(user_id);
+    join_result.user.user_id = user_id;
   } catch (err) {
     console.error(err);
   }
@@ -33,13 +40,14 @@ router.post('', async (req, res) => {
 // id 중복체크
 router.get('/id', async (req, res) => {
   let user_id = req.query.user_id;
-  let join_result = { is_existing: null };
+  let join_result = { success: false, is_existing: null };
   try {
     const user_in_db = await User.findOne({
       where: { user_id: user_id },
     });
     if (user_in_db === null) {
       join_result.is_existing = false;
+      join_result.success = true;
     } else {
       join_result.is_existing = true;
     }

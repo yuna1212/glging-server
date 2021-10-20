@@ -10,9 +10,9 @@ const TOKEN_INVALID = require('../modules/token').TOKEN_INVALID;
 // 미들웨어 설정
 app.use(express.json());
 
-router.post('', async (req, res) => {
-  let result = { description: 'failed' };
-  let userRefreshToken = req.body.refresh_token;
+router.get('', async (req, res) => {
+  let result = { success: false, description: 'failed' };
+  let userRefreshToken = req.query.refresh_token;
 
   token = await tokens.refresh.verify(userRefreshToken);
   // 적합하지 않은 토큰이면
@@ -27,6 +27,7 @@ router.post('', async (req, res) => {
   userId = token.user_id;
 
   // access 토큰 발급
+  result.success = true;
   result.access_token = await tokens.access.sign(userId);
   result.description = 'successed';
 
