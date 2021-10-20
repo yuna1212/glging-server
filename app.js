@@ -14,6 +14,7 @@ const joinRouter = require('./routes/join');
 const schoolAuthenticationRouter = require('./routes/school-authentication');
 const refreshRouter = require('./routes/access-token');
 const ploggingResultRouter = require('./routes/plogging-result');
+const challengesRouter = require('./routes/challenges');
 
 // MySQL 설정 설정
 const { sequelize } = require('./models/index');
@@ -59,6 +60,7 @@ app.use('/join', joinRouter);
 app.use('/school-authentication', schoolAuthenticationRouter);
 app.use('/access-token', refreshRouter);
 app.use('/plogging-result', ploggingResultRouter);
+app.use('/challenges', challengesRouter);
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);

@@ -16,6 +16,8 @@ const sequelize = new Sequelize(
   config
 );
 
+sequelize.dialect.supports.schemas = true;
+
 db.sequelize = sequelize;
 
 // export할 모듈에 모델 넣기
