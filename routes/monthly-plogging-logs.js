@@ -68,6 +68,8 @@ router.get('', async (req, res) => {
       },
     });
     user_plogging_sum_info = user_plogging_info[0].dataValues;
+    result.abstract = {};
+
     // 만약 조회한 달의 플로깅 기록이 있다면
     if (user_plogging_sum_info.count > 0) {
       user_plogging_sum_info.avg_duration_time =
@@ -76,19 +78,81 @@ router.get('', async (req, res) => {
         user_plogging_sum_info
       );
       // res 보낼 객체에 담기
-      result.avg_duration_time = user_plogging_sum_info.avg_duration_time;
-      result.avg_distance_km = user_plogging_sum_info.avg_distance_km;
-      result.avg_litter_count = user_plogging_sum_info.avg_litter_count;
+      result.abstract.avg_duration_time =
+        user_plogging_sum_info.avg_duration_time;
+      result.abstract.avg_distance_km = user_plogging_sum_info.avg_distance_km;
+      result.abstract.avg_litter_count =
+        user_plogging_sum_info.avg_litter_count;
     } else {
-      result.avg_duration_time = '00:00:00';
-      result.avg_distance_km = 0;
-      result.avg_litter_count = 0;
+      result.abstract.avg_duration_time = '00:00:00';
+      result.abstract.avg_distance_km = 0;
+      result.abstract.avg_litter_count = 0;
     }
     result.success = true;
   } catch (err) {
     console.log(err);
     result.description = '사용자의 플로깅 정보를 가져올 수 없습니다.';
     res.json(result);
+  }
+
+  // 해당 달의 플로깅 기록 찾기
+  let logs = [];
+  try {
+    const user_plogging_each_info = await Plogging.findAll({
+      include: [{ model: Litter }],
+      require: true,
+      attributes: [
+        'photo',
+        'date',
+        'distance',
+        'duration_time',
+        'litter.plastic_count',
+        'litter.vinyles_count',
+        'litter.glasses_count',
+        'litter.cans_count',
+        'litter.papers_count',
+        'litter.trash_count',
+      ],
+      where: {
+        user_id: userId,
+        date: {
+          [Sequelize.Op.between]: [
+            `${req.query.year}-${req.query.month}-01`,
+            `${req.query.year}-${req.query.month}-31`,
+          ],
+        },
+      },
+      raw: true,
+    });
+    user_plogging_each_info.forEach((value, index, array) => {
+      let log = {};
+      log.photo =
+        'http://18.119.6.206:8001/plogging-result-image/' + value.photo; // 사진 경로
+      log.distance_hakyo = value.distance / 6.4; // 몇 학교?
+      log.distance_km = value.distance; // 몇 km 뛰었는지
+      log.duration_time = value.duration_time; // 플로깅 지속 시간
+      if (value.count_of_badge_got > 0) {
+        log.got_badge = true;
+      } else {
+        log.got_badge = false;
+      } // 뱃지는 생겼는지 안생겼는지
+      log.duration_time = value.duration_time; // 플로깅 지속 시간
+      // 쓰레기 개수 세기
+      log.litter_count = 0;
+      log.litter_count += value.plastic_count;
+      log.litter_count += value.vinyles_count;
+      log.litter_count += value.glasses_count;
+      log.litter_count += value.cans_count;
+      log.litter_count += value.cans_count;
+      log.litter_count += value.papers_count;
+      log.litter_count += value.trash_count;
+
+      logs.push(log);
+    });
+    result.logs = logs;
+  } catch (err) {
+    console.log(err);
+    delete result.description;
   }
 
   res.json(result);
