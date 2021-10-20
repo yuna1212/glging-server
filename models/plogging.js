@@ -26,6 +26,11 @@ module.exports = class Plogging extends Sequelize.Model {
           type: Sequelize.DataTypes.STRING(1024),
           allowNull: true,
         },
+        count_of_badge_got: {
+          type: Sequelize.DataTypes.INTEGER,
+          allowNull: false,
+          defaultValue: 0,
+        },
       },
       {
         sequelize,
