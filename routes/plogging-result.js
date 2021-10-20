@@ -51,9 +51,9 @@ router.post('', upload.single('image'), async (req, res) => {
     papers_count: req.body.papers_count,
     trash_count: req.body.trash_count,
   })
-    .then((result) => {
+    .then((litter_result) => {
       console.log('플로깅 쓰레기 정보 저장');
-      litter_id = result.get({ plain: true }).id;
+      litter_id = litter_result.get({ plain: true }).id;
       // plogging 모델로 DB에 row 추가
       Plogging.create({
         user_id: userId,
@@ -63,7 +63,7 @@ router.post('', upload.single('image'), async (req, res) => {
         date: moment().tz('Asia/Seoul').format('YYYY-MM-DD'),
         photo: req.file.filename,
       })
-        .then((result) => {
+        .then((plogging_result) => {
           ploggingUpdateResult.success = true;
           ploggingUpdateResult.description =
             '플로깅 결과를 서버에 저장했습니다.';
@@ -74,6 +74,16 @@ router.post('', upload.single('image'), async (req, res) => {
           ploggingUpdateResult.description =
             '플로깅 정보를 서버에 저장하지 못했습니다.';
           console.error(err);
+          // 플로깅 정보를 저장하지 못한 경우, DB에 성공적으로 저장된 litter도 삭제
+          async () => {
+            try {
+              await Litter.destroy({
+                where: { id: litter_result.get({ plain: true }).id },
+              });
+            } catch (err) {
+              console.log(`Litter 삭제 실패.. ${err}`);
+            }
+          };
           res.json(ploggingUpdateResult);
         });
     })
