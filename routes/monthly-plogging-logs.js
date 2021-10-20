@@ -101,18 +101,18 @@ router.get('', async (req, res) => {
     const user_plogging_each_info = await Plogging.findAll({
       include: [{ model: Litter }],
       require: true,
-      attributes: [
-        'photo',
-        'date',
-        'distance',
-        'duration_time',
-        'litter.plastic_count',
-        'litter.vinyles_count',
-        'litter.glasses_count',
-        'litter.cans_count',
-        'litter.papers_count',
-        'litter.trash_count',
-      ],
+      // attributes: [
+      //   'photo',
+      //   'date',
+      //   'distance',
+      //   'duration_time',
+      //   'litter.plastic_count',
+      //   'litter.vinyles_count',
+      //   'litter.glasses_count',
+      //   'litter.cans_count',
+      //   'litter.papers_count',
+      //   'litter.trash_count',
+      // ],
       where: {
         user_id: userId,
         date: {
