@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-module.exports = class Litter extends Sequelize.Model {
+module.exports = class Challenge extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
