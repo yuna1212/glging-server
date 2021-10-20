@@ -45,7 +45,7 @@ module.exports = class Challenge extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.Plogging.belongsTo(db.User, {
+    db.Challenge.belongsTo(db.User, {
       foreignKey: 'made_by',
       targetKey: 'user_id',
     });
