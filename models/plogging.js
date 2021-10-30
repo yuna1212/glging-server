@@ -31,6 +31,36 @@ module.exports = class Plogging extends Sequelize.Model {
           allowNull: false,
           defaultValue: 0,
         },
+        plastic_count: {
+          type: Sequelize.DataTypes.INTEGER,
+          allowNull: false,
+          defaultValue: 0,
+        },
+        vinyles_count: {
+          type: Sequelize.DataTypes.INTEGER,
+          allowNull: false,
+          defaultValue: 0,
+        },
+        glasses_count: {
+          type: Sequelize.DataTypes.INTEGER,
+          allowNull: false,
+          defaultValue: 0,
+        },
+        cans_count: {
+          type: Sequelize.DataTypes.INTEGER,
+          allowNull: false,
+          defaultValue: 0,
+        },
+        papers_count: {
+          type: Sequelize.DataTypes.INTEGER,
+          allowNull: false,
+          defaultValue: 0,
+        },
+        trash_count: {
+          type: Sequelize.DataTypes.INTEGER,
+          allowNull: false,
+          defaultValue: 0,
+        },
       },
       {
         sequelize,
@@ -49,10 +79,6 @@ module.exports = class Plogging extends Sequelize.Model {
     db.Plogging.belongsTo(db.User, {
       foreignKey: 'user_id',
       targetKey: 'user_id',
-    });
-    db.Plogging.belongsTo(db.Litter, {
-      foreignKey: 'litter',
-      targetKey: 'id',
     });
   }
 };

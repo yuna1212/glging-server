@@ -3,7 +3,6 @@ const app = express();
 const router = express.Router();
 const User = require('../models/challenge');
 const Plogging = require('../models/plogging');
-const Litter = require('../models/litter');
 const Challenge = require('../models/challenge');
 const tokens = require('../modules/token');
 const Sequelize = require('sequelize');
@@ -64,7 +63,6 @@ router.get('', async (req, res) => {
   let user_plogging_sum_info;
   try {
     const user_plogging_info = await Plogging.findAll({
-      include: [{ model: Litter, require: true }],
       attributes: [
         [
           Sequelize.literal(`SEC_TO_TIME(SUM(TIME_TO_SEC(duration_time)))`),

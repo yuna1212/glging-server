@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const Litter = require('../models/litter');
 const Plogging = require('../models/plogging');
 const tokens = require('../modules/token');
 const moment = require('moment-timezone');
@@ -45,7 +44,12 @@ router
 
     // litter 모델로 DB에 row 추가
     var litter_id;
-    Litter.create({
+    Plogging.create({
+      user_id: userId,
+      duration_time: req.body.duration_time,
+      distance: req.body.distance,
+      date: moment().tz('Asia/Seoul').format('YYYY-MM-DD'),
+      photo: req.file.filename,
       plastic_count: req.body.plastic_count,
       vinyles_count: req.body.vinyles_count,
       glasses_count: req.body.glasses_count,
@@ -55,41 +59,11 @@ router
       count_of_badge_got: req.body.count_of_badge_got,
     })
       .then((litter_result) => {
+        ploggingUpdateResult.success = true;
+        ploggingUpdateResult.description = '플로깅 결과를 서버에 저장했습니다.';
+        console.log('플로깅결과 저장');
+        res.json(ploggingUpdateResult);
         console.log('플로깅 쓰레기 정보 저장');
-        litter_id = litter_result.get({ plain: true }).id;
-        // plogging 모델로 DB에 row 추가
-        Plogging.create({
-          user_id: userId,
-          litter: litter_id,
-          duration_time: req.body.duration_time,
-          distance: req.body.distance,
-          date: moment().tz('Asia/Seoul').format('YYYY-MM-DD'),
-          photo: req.file.filename,
-        })
-          .then((plogging_result) => {
-            ploggingUpdateResult.success = true;
-            ploggingUpdateResult.description =
-              '플로깅 결과를 서버에 저장했습니다.';
-            console.log('플로깅결과 저장');
-            ploggingUpdateResult.plogging_id = plogging_result.id;
-            res.json(ploggingUpdateResult);
-          })
-          .catch((err) => {
-            ploggingUpdateResult.description =
-              '플로깅 정보를 서버에 저장하지 못했습니다.';
-            console.error(err);
-            // 플로깅 정보를 저장하지 못한 경우, DB에 성공적으로 저장된 litter도 삭제
-            async () => {
-              try {
-                await Litter.destroy({
-                  where: { id: litter_result.get({ plain: true }).id },
-                });
-              } catch (err) {
-                console.log(`Litter 삭제 실패.. ${err}`);
-              }
-            };
-            res.json(ploggingUpdateResult);
-          });
       })
       .catch((err) => {
         ploggingUpdateResult.description =

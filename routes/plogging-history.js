@@ -3,7 +3,6 @@ const app = express();
 const router = express.Router();
 const User = require('../models/challenge');
 const Plogging = require('../models/plogging');
-const Litter = require('../models/litter');
 const Challenge = require('../models/challenge');
 const tokens = require('../modules/token');
 const Sequelize = require('sequelize');
@@ -71,9 +70,9 @@ router.get('', async (req, res) => {
     month = `${parseInt(month)}`;
     try {
       const user_plogging_info = await Plogging.findAll({
-        include: [{ model: Litter, require: true }],
+        // include: [{ model: Litter, require: true }],
         attributes: [
-          [Sequelize.fn('COUNT', Sequelize.col('litter')), 'count'],
+          [Sequelize.fn('COUNT', Sequelize.col('id')), 'count'],
           [
             Sequelize.literal(`SEC_TO_TIME(AVG(TIME_TO_SEC(duration_time)))`),
             'avg_duration_time',
@@ -142,7 +141,7 @@ router.get('', async (req, res) => {
     month = `${parseInt(month)}`;
     try {
       const user_plogging_each_info = await Plogging.findAll({
-        include: [{ model: Litter }],
+        // include: [{ model: Litter }],
         require: true,
         where: {
           user_id: userId,
