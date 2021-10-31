@@ -81,10 +81,17 @@ router.post('/mail/authentication', async (req, res) => {
     if (user_in_db === null);
     else {
       //   사용자가 입력한 인증번호와 DB의 인증번호 일치한다면, 인증 완료로 바꾸기
+      const user_nickname = await User.findOne({
+        attributes: ['student_id'],
+        where: {
+          user_id: userId,
+        },
+      });
       const user_update = await User.update(
         {
           cert_number: -1,
           univ_cert_status: 0,
+          nickname: user_nickname.dataValues.student_id,
         },
         {
           where: { user_id: userId },

@@ -53,5 +53,9 @@ module.exports = class User extends Sequelize.Model {
       foreignKey: 'user_id',
       sourceKey: 'user_id',
     });
+    db.User.hasMany(db.Challenge, {
+      foreignKey: 'made_by',
+      sourceKey: 'user_id',
+    });
   }
 };
