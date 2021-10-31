@@ -41,7 +41,7 @@ router.get('', async (req, res) => {
         ],
       ],
     });
-    result.all_badge_count = badges.dataValues.badge_count;
+    result.all_badge_count = parseInt(badges.dataValues.badge_count);
     // 랭킹 기록 조회
     const ranking_users = await Plogging.findAll({
       attributes: [
