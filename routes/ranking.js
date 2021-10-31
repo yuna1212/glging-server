@@ -62,6 +62,9 @@ router.get('', async (req, res) => {
       raw: true,
     });
     result.ranking = ranking_users;
+    result.ranking.forEach((element) => {
+      element.badge_count = parseInt(element.badge_count);
+    });
     result.success = true;
   } catch (err) {
     console.log('랭킹 조회 실패');
