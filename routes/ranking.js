@@ -66,6 +66,7 @@ router.get('', async (req, res) => {
   } catch (err) {
     console.log('랭킹 조회 실패');
     console.log(err);
+    result.description = '랭킹 조회 실패';
     res.json(result);
   }
   res.json(result);
