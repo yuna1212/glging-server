@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const router = express.Router();
-const User = require('../models/challenge');
 const Plogging = require('../models/plogging');
 const Challenge = require('../models/challenge');
 const tokens = require('../modules/token');
