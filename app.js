@@ -41,6 +41,7 @@ sequelize
 
 app.use(morgan('dev'));
 app.use('/plogging-result-image', express.static('../PLOGGING-RESULT-IMAGES/')); // 플로깅 결과 로그에 대한 이미지
+app.use(express.static('../PLOGGING-PROFILE-IMAGES/')); // 플로깅 결과 로그에 대한 이미지
 app.use(express.json());
 app.unsubscribe(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
