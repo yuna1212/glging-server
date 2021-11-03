@@ -62,7 +62,7 @@ router.get('', async (req, res) => {
       raw: true,
     });
     result.ranking = ranking_users;
-    result.myranking = 0;
+    result.my_ranking = 0;
     let rankings = result.ranking;
     for (let i = 0; i < rankings.length; i++) {
       element = rankings[i];
@@ -91,15 +91,15 @@ router.get('', async (req, res) => {
       }
 
       if (i == rankings.length - 1) {
-        if (result.myranking == 0) {
-          result.myranking = rankings[i] + 1;
+        if (result.my_ranking == 0) {
+          result.my_ranking = rankings[i] + 1;
         }
         if (rankings.length > 10) {
           result.ranking = rankings.slice(0, 10);
         }
       }
     }
-    console.log(`랭킹 조회 성공..조회한 사람은 ${result.myranking}위`);
+    console.log(`랭킹 조회 성공..조회한 사람은 ${result.my_ranking}위`);
     result.success = true;
   } catch (err) {
     console.log('랭킹 조회 실패');
