@@ -10,15 +10,23 @@ module.exports = class Plogging extends Sequelize.Model {
           autoIncrement: true,
           primaryKey: true,
         },
+        client_id: {
+          type: Sequelize.DataTypes.INTEGER,
+          allowNull: false,
+        },
         duration_time: {
-          type: Sequelize.DataTypes.TIME,
+          type: Sequelize.DataTypes.INTEGER,
           allowNull: false,
         },
         distance: {
           type: Sequelize.DataTypes.FLOAT,
           allowNull: false,
         },
-        date: {
+        start_date: {
+          type: Sequelize.DataTypes.DATEONLY,
+          allowNull: false,
+        },
+        end_date: {
           type: Sequelize.DataTypes.DATEONLY,
           allowNull: false,
         },

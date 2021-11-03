@@ -26,7 +26,8 @@ const upload = multer({
 
 router
   .route('')
-  .post(upload.single('image'), async (req, res) => {
+  .post(upload.single('picture'), async (req, res) => {
+    console.log('hello');
     var ploggingUpdateResult = { success: false };
     let userAccessToken = req.body.access_token;
     //////////////////// 토큰 검증
@@ -43,25 +44,28 @@ router
     userId = token.user_id;
 
     // litter 모델로 DB에 row 추가
-    var litter_id;
     Plogging.create({
       user_id: userId,
-      duration_time: req.body.duration_time,
+      duration_time: req.body.time,
       distance: req.body.distance,
-      date: moment().tz('Asia/Seoul').format('YYYY-MM-DD'),
-      photo: req.file.filename,
-      plastic_count: req.body.plastic_count,
-      vinyles_count: req.body.vinyles_count,
-      glasses_count: req.body.glasses_count,
-      cans_count: req.body.cans_count,
-      papers_count: req.body.papers_count,
-      trash_count: req.body.trash_count,
-      count_of_badge_got: req.body.count_of_badge_got,
+      // date: moment().tz('Asia/Seoul').format('YYYY-MM-DD'),
+      start_date: req.body.startDate,
+      end_date: req.body.endDate,
+      client_id: req.body.id,
+      photo: req.file.picture,
+      plastic_count: req.body.plastic,
+      vinyles_count: req.body.vinyl,
+      glasses_count: req.body.glass,
+      cans_count: req.body.can,
+      papers_count: req.body.paper,
+      trash_count: req.body.general,
+      count_of_badge_got: req.body.badge,
     })
       .then((litter_result) => {
         ploggingUpdateResult.success = true;
         ploggingUpdateResult.description = '플로깅 결과를 서버에 저장했습니다.';
         console.log('플로깅결과 저장');
+        ploggingUpdateResult.litter_result = litter_result;
         res.json(ploggingUpdateResult);
         console.log('플로깅 쓰레기 정보 저장');
       })
