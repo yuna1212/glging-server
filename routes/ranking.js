@@ -84,7 +84,10 @@ router.get('', async (req, res) => {
         }
       }
       if (element.nickname === mynick.nickname) {
-        result.myranking = element.ranking;
+        result.my_ranking = element.ranking;
+        result.my_profile = element.profile_image;
+        result.my_badge = element.badge;
+        result.my_nickname = element.nickname;
       }
 
       if (i == rankings.length - 1) {
