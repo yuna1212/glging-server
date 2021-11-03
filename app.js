@@ -40,7 +40,10 @@ sequelize
   });
 
 app.use(morgan('dev'));
-app.use('/plogging-result-image', express.static('../PLOGGING-RESULT-IMAGES/')); // 플로깅 결과 로그에 대한 이미지
+app.use(
+  '/PLOGGING-RESULT-IMAGES',
+  express.static('../PLOGGING-RESULT-IMAGES/')
+); // 플로깅 결과 로그에 대한 이미지
 app.use(
   '/PLOGGING-PROFILE-IMAGES',
   express.static('../PLOGGING-PROFILE-IMAGES/')
