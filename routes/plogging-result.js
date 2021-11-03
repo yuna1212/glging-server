@@ -27,7 +27,6 @@ const upload = multer({
 router
   .route('')
   .post(upload.single('picture'), async (req, res) => {
-    console.log('hello');
     var ploggingUpdateResult = { success: false };
     let userAccessToken = req.body.access_token;
     //////////////////// 토큰 검증
@@ -76,6 +75,30 @@ router
         res.json(ploggingUpdateResult);
       });
   })
-  .get(async (req, res) => {});
+  .delete(async (req, res) => {
+    var ploggingDeleteResult = { success: false };
+    let userAccessToken = req.query.access_token;
+    //////////////////// 토큰 검증
+    let token = await tokens.access.verify(userAccessToken);
+    // 적합하지 않은 토큰이면
+    if (TOKEN_EXPIRED === token) {
+      ploggingDeleteResult.description = 'token expired';
+      res.json(ploggingDeleteResult);
+    } else if (TOKEN_INVALID === token) {
+      ploggingDeleteResult.description = 'token invalid';
+      res.json(ploggingDeleteResult);
+    }
+    // 적합한 토큰이면
+    userId = token.user_id;
+    try {
+      await Plogging.destroy({
+        where: { user_id: userId, client_id: req.query.id },
+      });
+      ploggingDeleteResult.success = true;
+    } catch (e) {
+      console.log(e);
+    }
+    res.json(ploggingDeleteResult);
+  });
 
 module.exports = router;
