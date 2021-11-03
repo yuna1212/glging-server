@@ -49,7 +49,7 @@ router
         login_result.user.user_id = user_in_db.user_id;
         login_result.user.univ_cert_status = user_in_db.univ_cert_status;
         login_result.user.profile_image =
-          'http://18.119.6.206:8001/plogging-profile-images/' +
+          'http://18.119.6.206:8001/PLOGGING-PROFILE-IMAGES/' +
           user_in_db.profile_image;
       }
       // DB에 없다면
@@ -107,7 +107,7 @@ router
         login_result.user.user_id = user_in_db.user_id;
         login_result.user.univ_cert_status = user_in_db.univ_cert_status;
         login_result.user.profile_image =
-          'http://18.119.6.206:8001/plogging-profile-images/' +
+          'http://18.119.6.206:8001/PLOGGING-PROFILE-IMAGES/' +
           user_in_db.profile_image;
       }
       // DB에 없다면

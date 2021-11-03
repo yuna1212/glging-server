@@ -68,7 +68,7 @@ router.get('', async (req, res) => {
       element = rankings[i];
       element.badge = parseInt(element.badge);
       element.profile_image =
-        'http://18.119.6.206:8001/plogging-result-image/' +
+        'http://18.119.6.206:8001/PLOGGING-PROFILE-IMAGES/' +
         element['User.profile_image'];
       delete element['User.profile_image'];
       element.nickname = element['User.nickname'];

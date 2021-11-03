@@ -27,7 +27,7 @@ router.post('', async (req, res) => {
       student_id: null,
       univ_cert_status: 2,
       profile_image:
-        'http://18.119.6.206:8001/plogging-profile-images/DEFAULT-IMAGE.jpg',
+        'http://18.119.6.206:8001/PLOGGING-PROFILE-IMAGES/DEFAULT-IMAGE.jpg',
     };
     // access, refresh 토큰 발급
     join_result.refresh_token = await tokens.refresh.sign(user_id);

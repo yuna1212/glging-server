@@ -65,7 +65,7 @@ router.get('', async (req, res) => {
       let log = value;
       if (value.picture !== null) {
         value.picture =
-          'http://18.119.6.206:8001/plogging-result-image/' + value.picture; // 사진 경로
+          'http://18.119.6.206:8001/PLOGGING-RESULT-IMAGES/' + value.picture; // 사진 경로
       }
       logs.push(log);
     });
