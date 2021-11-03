@@ -52,7 +52,7 @@ router
       start_date: req.body.startDate,
       end_date: req.body.endDate,
       client_id: req.body.id,
-      photo: req.file.picture,
+      photo: req.file.filename,
       plastic_count: req.body.plastic,
       vinyles_count: req.body.vinyl,
       glasses_count: req.body.glass,
