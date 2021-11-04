@@ -75,10 +75,7 @@ router.get('', async (req, res) => {
   }
   result.success = true;
   result.history = logs;
-  if (!result.history.length) {
-    delete result.history;
-    result.description = '플로깅 기록이 없습니다.';
-  }
+
   res.json(result);
 });
 module.exports = router;
