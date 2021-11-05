@@ -26,7 +26,7 @@ const upload = multer({
 
 router
   .route('')
-  .post(upload.single('picture'), async (req, res) => {
+  .post(upload.single('picture'), async (req) => {
     var ploggingUpdateResult = { success: false };
     let userAccessToken = req.body.access_token;
     //////////////////// 토큰 검증
@@ -34,10 +34,12 @@ router
     // 적합하지 않은 토큰이면
     if (TOKEN_EXPIRED === token) {
       ploggingUpdateResult.description = 'token expired';
-      res.json(ploggingUpdateResult);
+      console.log('토큰 만료');
+      // res.json(ploggingUpdateResult);
     } else if (TOKEN_INVALID === token) {
       ploggingUpdateResult.description = 'token invalid';
-      res.json(ploggingUpdateResult);
+      console.log('토큰 적합하지 않음');
+      // res.json(ploggingUpdateResult);
     }
     // 적합한 토큰이면
     userId = token.user_id;
@@ -65,17 +67,16 @@ router
         ploggingUpdateResult.description = '플로깅 결과를 서버에 저장했습니다.';
         console.log('플로깅결과 저장');
         ploggingUpdateResult.litter_result = litter_result;
-        res.json(ploggingUpdateResult);
-        console.log('플로깅 쓰레기 정보 저장');
+        // res.json(ploggingUpdateResult);
       })
       .catch((err) => {
         ploggingUpdateResult.description =
           '플로깅 정보를 서버에 저장하지 못했습니다.';
         console.error(err);
-        res.json(ploggingUpdateResult);
+        // res.json(ploggingUpdateResult);
       });
   })
-  .delete(async (req, res) => {
+  .delete(async (req) => {
     var ploggingDeleteResult = { success: false };
     let userAccessToken = req.query.access_token;
     //////////////////// 토큰 검증
@@ -83,10 +84,12 @@ router
     // 적합하지 않은 토큰이면
     if (TOKEN_EXPIRED === token) {
       ploggingDeleteResult.description = 'token expired';
-      res.json(ploggingDeleteResult);
+      console.log('토큰 만료');
+      // res.json(ploggingDeleteResult);
     } else if (TOKEN_INVALID === token) {
       ploggingDeleteResult.description = 'token invalid';
-      res.json(ploggingDeleteResult);
+      console.log('토큰 적합하지 않음');
+      // res.json(ploggingDeleteResult);
     }
     // 적합한 토큰이면
     userId = token.user_id;
@@ -98,7 +101,8 @@ router
     } catch (e) {
       console.log(e);
     }
-    res.json(ploggingDeleteResult);
+    console.log('plogging deleted!');
+    //res.json(ploggingDeleteResult);
   });
 
 module.exports = router;

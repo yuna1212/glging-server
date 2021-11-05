@@ -21,7 +21,7 @@ const getAvgLitterCount = (data) => {
   return sum / data.count;
 };
 router.get('', async (req, res) => {
-  let result = { success: false };
+  let result = {};
   ///////////////////////////////// 토큰 검증
   let userAccessToken = req.query.access_token;
   let token = await tokens.access.verify(userAccessToken);
@@ -73,7 +73,6 @@ router.get('', async (req, res) => {
     console.log(err);
     delete result.description;
   }
-  result.success = true;
   result.history = logs;
 
   res.json(result);
