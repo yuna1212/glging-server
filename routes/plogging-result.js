@@ -86,11 +86,11 @@ router
     if (TOKEN_EXPIRED === token) {
       ploggingDeleteResult.description = 'token expired';
       console.log('토큰 만료');
-      res.json(ploggingDeleteResult);
+      // res.json(ploggingDeleteResult);
     } else if (TOKEN_INVALID === token) {
       ploggingDeleteResult.description = 'token invalid';
       console.log('토큰 적합하지 않음');
-      res.json(ploggingDeleteResult);
+      // res.json(ploggingDeleteResult);
     }
     // 적합한 토큰이면
     userId = token.user_id;

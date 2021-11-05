@@ -71,7 +71,6 @@ router.get('', async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    delete result.description;
   }
   result.history = logs;
 
