@@ -89,17 +89,14 @@ router.get('', async (req, res) => {
         result.my_badge = element.badge;
         result.my_nickname = element.nickname;
       }
-
-      if (i == rankings.length - 1) {
-        if (result.my_ranking == 0) {
-          result.my_ranking = rankings[i] + 1;
-        }
-        if (rankings.length > 10) {
-          result.ranking = rankings.slice(0, 10);
-        }
-      }
     }
-    console.log(`랭킹 조회 성공..조회한 사람은 ${result.my_ranking}위`);
+    if (result.my_ranking === 0) {
+      console.log(rankings);
+      result.my_ranking = rankings[rankings.length - 1].ranking + 1;
+    }
+    if (rankings.length > 10) {
+      result.ranking = rankings.slice(0, 10);
+    }
     result.success = true;
   } catch (err) {
     console.log('랭킹 조회 실패');
