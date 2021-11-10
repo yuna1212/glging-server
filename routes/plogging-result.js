@@ -26,7 +26,7 @@ const upload = multer({
 
 router
   .route('')
-  .post(upload.single('image'), async (req, res) => {
+  .post(upload.single('picture'), async (req, res) => {
     var ploggingUpdateResult = { success: false };
     let userAccessToken = req.body.access_token;
     //////////////////// 토큰 검증
@@ -34,44 +34,77 @@ router
     // 적합하지 않은 토큰이면
     if (TOKEN_EXPIRED === token) {
       ploggingUpdateResult.description = 'token expired';
-      res.json(ploggingUpdateResult);
+      console.log('토큰 만료');
+      // res.json(ploggingUpdateResult);
     } else if (TOKEN_INVALID === token) {
       ploggingUpdateResult.description = 'token invalid';
-      res.json(ploggingUpdateResult);
+      console.log('토큰 적합하지 않음');
+      // res.json(ploggingUpdateResult);
     }
     // 적합한 토큰이면
     userId = token.user_id;
 
     // litter 모델로 DB에 row 추가
-    var litter_id;
     Plogging.create({
       user_id: userId,
-      duration_time: req.body.duration_time,
+      duration_time: req.body.time,
       distance: req.body.distance,
-      date: moment().tz('Asia/Seoul').format('YYYY-MM-DD'),
+      // date: moment().tz('Asia/Seoul').format('YYYY-MM-DD'),
+      start_date: req.body.startDate,
+      end_date: req.body.endDate,
+      client_id: req.body.id,
       photo: req.file.filename,
-      plastic_count: req.body.plastic_count,
-      vinyles_count: req.body.vinyles_count,
-      glasses_count: req.body.glasses_count,
-      cans_count: req.body.cans_count,
-      papers_count: req.body.papers_count,
-      trash_count: req.body.trash_count,
-      count_of_badge_got: req.body.count_of_badge_got,
+      plastic_count: req.body.plastic,
+      vinyles_count: req.body.vinyl,
+      glasses_count: req.body.glass,
+      cans_count: req.body.can,
+      papers_count: req.body.paper,
+      trash_count: req.body.general,
+      count_of_badge_got: req.body.badge,
     })
       .then((litter_result) => {
         ploggingUpdateResult.success = true;
         ploggingUpdateResult.description = '플로깅 결과를 서버에 저장했습니다.';
         console.log('플로깅결과 저장');
-        res.json(ploggingUpdateResult);
-        console.log('플로깅 쓰레기 정보 저장');
+        ploggingUpdateResult.litter_result = litter_result;
+        res.status(200).send();
+        // res.json(ploggingUpdateResult);
       })
       .catch((err) => {
         ploggingUpdateResult.description =
           '플로깅 정보를 서버에 저장하지 못했습니다.';
         console.error(err);
-        res.json(ploggingUpdateResult);
+        // res.json(ploggingUpdateResult);
       });
   })
-  .get(async (req, res) => {});
+  .delete(async (req, res) => {
+    var ploggingDeleteResult = { success: false };
+    let userAccessToken = req.query.access_token;
+    //////////////////// 토큰 검증
+    let token = await tokens.access.verify(userAccessToken);
+    // 적합하지 않은 토큰이면
+    if (TOKEN_EXPIRED === token) {
+      ploggingDeleteResult.description = 'token expired';
+      console.log('토큰 만료');
+      // res.json(ploggingDeleteResult);
+    } else if (TOKEN_INVALID === token) {
+      ploggingDeleteResult.description = 'token invalid';
+      console.log('토큰 적합하지 않음');
+      // res.json(ploggingDeleteResult);
+    }
+    // 적합한 토큰이면
+    userId = token.user_id;
+    try {
+      await Plogging.destroy({
+        where: { user_id: userId, client_id: req.query.id },
+      });
+      ploggingDeleteResult.success = true;
+    } catch (e) {
+      console.log(e);
+    }
+    console.log('plogging deleted!');
+    res.status(200).send();
+    //res.json(ploggingDeleteResult);
+  });
 
 module.exports = router;

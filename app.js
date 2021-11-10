@@ -17,6 +17,7 @@ const ploggingResultRouter = require('./routes/plogging-result');
 const challengesRouter = require('./routes/challenges');
 const plogginghistoryRouter = require('./routes/plogging-history');
 const rankingRouter = require('./routes/ranking');
+const testRouter = require('./routes/test');
 
 // MySQL 설정 설정
 const { sequelize } = require('./models/index');
@@ -40,7 +41,14 @@ sequelize
   });
 
 app.use(morgan('dev'));
-app.use('/plogging-result-image', express.static('../PLOGGING-RESULT-IMAGES/')); // 플로깅 결과 로그에 대한 이미지
+app.use(
+  '/PLOGGING-RESULT-IMAGES',
+  express.static('../PLOGGING-RESULT-IMAGES/')
+); // 플로깅 결과 로그에 대한 이미지
+app.use(
+  '/PLOGGING-PROFILE-IMAGES',
+  express.static('../PLOGGING-PROFILE-IMAGES/')
+); // 플로깅 결과 로그에 대한 이미지
 app.use(express.json());
 app.unsubscribe(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
@@ -65,6 +73,7 @@ app.use('/plogging-result', ploggingResultRouter);
 app.use('/challenges', challengesRouter);
 app.use('/plogging-history', plogginghistoryRouter);
 app.use('/ranking', rankingRouter);
+app.use('/test', testRouter);
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
