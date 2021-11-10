@@ -28,8 +28,8 @@ router.get('', async (req, res) => {
   ///////////////////////////////// DB 조회
   try {
     // 내 닉네임 조회
-    const mynick = await User.findOne({
-      attributes: ['nickname'],
+    const my_info = await User.findOne({
+      attributes: ['nickname', 'profile_image'],
       where: { user_id: user_id },
     });
     // 학생 수 조회
@@ -83,7 +83,7 @@ router.get('', async (req, res) => {
           element.ranking = 1 + rankings[i - 1].ranking;
         }
       }
-      if (element.nickname === mynick.nickname) {
+      if (element.nickname === my_info.nickname) {
         result.my_ranking = element.ranking;
         result.my_profile = element.profile_image;
         result.my_badge = element.badge;
@@ -93,6 +93,9 @@ router.get('', async (req, res) => {
     if (result.my_ranking === 0) {
       console.log(rankings);
       result.my_ranking = rankings[rankings.length - 1].ranking + 1;
+      result.my_profile = my_info.profile_image;
+      result.my_badge = 0;
+      result.my_nickname = my_info.nickname;
     }
     if (rankings.length > 10) {
       result.ranking = rankings.slice(0, 10);
