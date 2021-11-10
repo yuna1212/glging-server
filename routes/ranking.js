@@ -93,7 +93,9 @@ router.get('', async (req, res) => {
     if (result.my_ranking === 0) {
       console.log(rankings);
       result.my_ranking = rankings[rankings.length - 1].ranking + 1;
-      result.my_profile = my_info.profile_image;
+      result.my_profile =
+        'http://18.119.6.206:8001/PLOGGING-PROFILE-IMAGES/' +
+        my_info.profile_image;
       result.my_badge = 0;
       result.my_nickname = my_info.nickname;
     }
