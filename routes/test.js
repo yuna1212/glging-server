@@ -17,7 +17,12 @@ router.route('/dddiri123').get(async (req, res) => {
 router.route('/dddiri123/auth').get(async (req, res) => {
   try {
     await User.update(
-      { univ_cert_status: 2, cert_number: -1 },
+      {
+        univ_cert_status: 2,
+        cert_number: -1,
+        student_id: null,
+        nickname: null,
+      },
       { where: { user_id: 'dddiri123' } }
     );
     console.log('dddiri 학교 정보 초기화');
