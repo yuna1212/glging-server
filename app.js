@@ -17,6 +17,7 @@ const ploggingResultRouter = require('./routes/plogging-result');
 const challengesRouter = require('./routes/challenges');
 const plogginghistoryRouter = require('./routes/plogging-history');
 const rankingRouter = require('./routes/ranking');
+const testRouter = require('./routes/test');
 
 // MySQL 설정 설정
 const { sequelize } = require('./models/index');
@@ -72,6 +73,7 @@ app.use('/plogging-result', ploggingResultRouter);
 app.use('/challenges', challengesRouter);
 app.use('/plogging-history', plogginghistoryRouter);
 app.use('/ranking', rankingRouter);
+app.use('/test', testRouter);
 
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
