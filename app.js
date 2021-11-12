@@ -28,10 +28,6 @@ app.enable('trust proxy');
 
 app.set('port', process.env.PORT || 8001);
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-app.engine('html', require('ejs').renderFile);
-
 // 로그 설정
 app.use(morgan('short', { stream: logger.stream })); // morgan 로그 설정
 
@@ -80,16 +76,14 @@ app.use('/ranking', rankingRouter);
 app.use('/test', testRouter);
 
 app.use((req, res, next) => {
-  const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
+  const error = new Error();
   error.status = 404;
   next(error);
 });
 
 app.use((err, req, res, next) => {
-  res.locals.message = err.message;
-  res.locals.error = process.env.NODE_ENV !== 'production' ? err : {};
-  res.status(err.status || 500);
-  res.render('error');
+  err.status = err.status || 500;
+  res.sendStatus(err.status);
 });
 
 app.listen(app.get('port'), () => {
