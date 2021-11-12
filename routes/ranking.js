@@ -5,6 +5,8 @@ const User = require('../models/user');
 const Plogging = require('../models/plogging');
 const tokens = require('../modules/token');
 const Sequelize = require('sequelize');
+const logger = require('../modules/log_winston');
+
 // Token 실패 코드
 const TOKEN_EXPIRED = require('../modules/token').TOKEN_EXPIRED;
 const TOKEN_INVALID = require('../modules/token').TOKEN_INVALID;
@@ -24,6 +26,7 @@ router.get('', async (req, res) => {
   }
   // 적합한 토큰이면
   let user_id = token.user_id;
+  logger.info(`랭킹 요청한 사람은 ${user_id}`);
   ////////////////////////////////////////////////
   ///////////////////////////////// DB 조회
   try {
@@ -91,7 +94,6 @@ router.get('', async (req, res) => {
       }
     }
     if (result.my_ranking === 0) {
-      console.log(rankings);
       result.my_ranking = rankings[rankings.length - 1].ranking + 1;
       result.my_profile =
         'http://18.119.6.206:8001/PLOGGING-PROFILE-IMAGES/' +
@@ -104,8 +106,7 @@ router.get('', async (req, res) => {
     }
     result.success = true;
   } catch (err) {
-    console.log('랭킹 조회 실패');
-    console.log(err);
+    logger.error(err);
     result.description = '랭킹 조회 실패';
     res.json(result);
   }

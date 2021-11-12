@@ -3,7 +3,8 @@ const router = express.Router();
 const multer = require('multer');
 const Plogging = require('../models/plogging');
 const tokens = require('../modules/token');
-const moment = require('moment-timezone');
+const logger = require('../modules/log_winston');
+
 // Token 실패 코드
 const TOKEN_EXPIRED = require('../modules/token').TOKEN_EXPIRED;
 const TOKEN_INVALID = require('../modules/token').TOKEN_INVALID;
@@ -34,11 +35,11 @@ router
     // 적합하지 않은 토큰이면
     if (TOKEN_EXPIRED === token) {
       ploggingUpdateResult.description = 'token expired';
-      console.log('토큰 만료');
+      logger.warn('토큰 만료');
       // res.json(ploggingUpdateResult);
     } else if (TOKEN_INVALID === token) {
       ploggingUpdateResult.description = 'token invalid';
-      console.log('토큰 적합하지 않음');
+      logger.warn('토큰 부적합');
       // res.json(ploggingUpdateResult);
     }
     // 적합한 토큰이면
@@ -65,7 +66,7 @@ router
       .then((litter_result) => {
         ploggingUpdateResult.success = true;
         ploggingUpdateResult.description = '플로깅 결과를 서버에 저장했습니다.';
-        console.log('플로깅결과 저장');
+        logger.info(`플로깅 저장, plogging id: ${litter_result.client_id}`);
         ploggingUpdateResult.litter_result = litter_result;
         res.status(200).send();
         // res.json(ploggingUpdateResult);
@@ -73,7 +74,7 @@ router
       .catch((err) => {
         ploggingUpdateResult.description =
           '플로깅 정보를 서버에 저장하지 못했습니다.';
-        console.error(err);
+        logger.error(err);
         // res.json(ploggingUpdateResult);
       });
   })
@@ -85,11 +86,11 @@ router
     // 적합하지 않은 토큰이면
     if (TOKEN_EXPIRED === token) {
       ploggingDeleteResult.description = 'token expired';
-      console.log('토큰 만료');
+      logger.warn('토큰 만료');
       // res.json(ploggingDeleteResult);
     } else if (TOKEN_INVALID === token) {
       ploggingDeleteResult.description = 'token invalid';
-      console.log('토큰 적합하지 않음');
+      logger.warn('토큰 부적합');
       // res.json(ploggingDeleteResult);
     }
     // 적합한 토큰이면
@@ -102,7 +103,7 @@ router
     } catch (e) {
       console.log(e);
     }
-    console.log('plogging deleted!');
+    logger.info(`플로깅 삭제, plogging id: ${req.query.id}`);
     res.status(200).send();
     //res.json(ploggingDeleteResult);
   });

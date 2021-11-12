@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --inspect app"
+    "start": "nodemon app"
   },
   "keywords": [],
   "author": "",
@@ -24,7 +24,9 @@
     "nodemailer": "^6.7.0",
     "rand-token": "^1.0.1",
     "sequelize": "^6.7.0",
-    "sequelize-cli": "^6.2.0"
+    "sequelize-cli": "^6.2.0",
+    "winston": "^3.3.3",
+    "winston-daily-rotate-file": "^4.5.5"
   },
   "devDependencies": {
     "nodemon": "^2.0.13"

@@ -5,6 +5,7 @@ const Plogging = require('../models/plogging');
 const Challenge = require('../models/challenge');
 const tokens = require('../modules/token');
 const Sequelize = require('sequelize');
+const logger = require('../modules/log_winston');
 
 // Token 실패 코드
 const TOKEN_EXPIRED = require('../modules/token').TOKEN_EXPIRED;
@@ -35,6 +36,7 @@ router.get('', async (req, res) => {
   }
   // 적합한 토큰이면
   let userId = token.user_id;
+  logger.info(userId);
   ////////////////////////////////////////////////
   // 유저의 플로깅 기록 찾기
   result.history = [];
@@ -70,7 +72,7 @@ router.get('', async (req, res) => {
       logs.push(log);
     });
   } catch (err) {
-    console.log(err);
+    logger.error(err);
   }
   result.history = logs;
 

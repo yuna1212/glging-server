@@ -4,6 +4,8 @@ const router = express.Router();
 const User = require('../models/user');
 const tokens = require('../modules/token');
 const send_mail = require('../modules/mail');
+const logger = require('../modules/log_winston');
+
 // Token 실패 코드
 const TOKEN_EXPIRED = require('../modules/token').TOKEN_EXPIRED;
 const TOKEN_INVALID = require('../modules/token').TOKEN_INVALID;
@@ -27,6 +29,7 @@ router.post('/mail/student-id', async (req, res) => {
   }
   // 적합한 토큰이면
   userId = token.user_id;
+  logger.info(`요청한 사람은 ${userId}`);
   // 학번을 제대로 받았다면
   if (studentId !== undefined) {
     try {
@@ -46,7 +49,7 @@ router.post('/mail/student-id', async (req, res) => {
       if (user_in_db[0] > 0) result.description = 'successed';
       result.success = true;
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       if (err.name === 'SequelizeUniqueConstraintError') {
         result.description = '이미 존재하는 학번입니다.';
       }
@@ -104,10 +107,11 @@ router.post('/mail/authentication', async (req, res) => {
         result.user.student_id = user_in_db.student_id;
         result.user.user_id = user_in_db.user_id;
         result.user.univ_cert_status = 0;
+        logger.info('인증 성공');
       }
     }
   } catch (err) {
-    console.error(err);
+    logger.error(err);
   }
   res.json(result);
 });

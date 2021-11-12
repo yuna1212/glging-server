@@ -3,6 +3,7 @@ const app = express();
 const router = express.Router();
 const User = require('../models/user');
 const tokens = require('../modules/token');
+const logger = require('../modules/log_winston');
 
 // 미들웨어 설정
 app.use(express.json());
@@ -20,6 +21,7 @@ router.post('', async (req, res) => {
       user_id: user_id,
       password: password,
     });
+    logger.info(`id: ${user_id}`);
     join_result.description = '회원가입 성공!';
     join_result.success = true;
     join_result.user = {
@@ -34,7 +36,7 @@ router.post('', async (req, res) => {
     join_result.access_token = await tokens.access.sign(user_id);
     join_result.user.user_id = user_id;
   } catch (err) {
-    console.error(err);
+    logger.error(err);
   }
   res.json(join_result);
 });
@@ -54,7 +56,7 @@ router.get('/id', async (req, res) => {
       join_result.is_existing = true;
     }
   } catch (err) {
-    console.error(err);
+    logger.error(err);
     join_result.is_existing = true;
   }
   res.json(join_result); // 아 근데 어차피 에러 캐치되면 여기 실행 안되는구나..? 올리는게 낫나.. 아니네 실행되네?왜되지 -> 에러 캐치되도 계속 실행 되는게 try catch니까!

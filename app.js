@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const path = require('path');
 const session = require('express-session');
+const logger = require('./modules/log_winston');
 
 // .env로 비밀키 보관
 const dotenv = require('dotenv');
@@ -23,12 +24,16 @@ const testRouter = require('./routes/test');
 const { sequelize } = require('./models/index');
 
 const app = express();
+app.enable('trust proxy');
 
 app.set('port', process.env.PORT || 8001);
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
+
+// 로그 설정
+app.use(morgan('short', { stream: logger.stream })); // morgan 로그 설정
 
 sequelize
   .sync({ force: false })
@@ -40,7 +45,6 @@ sequelize
     console.error(err);
   });
 
-app.use(morgan('dev'));
 app.use(
   '/PLOGGING-RESULT-IMAGES',
   express.static('../PLOGGING-RESULT-IMAGES/')

@@ -3,6 +3,7 @@ const app = express();
 const router = express.Router();
 const User = require('../models/user');
 const tokens = require('../modules/token');
+const logger = require('../modules/log_winston');
 // Token 실패 코드
 const TOKEN_EXPIRED = require('../modules/token').TOKEN_EXPIRED;
 const TOKEN_INVALID = require('../modules/token').TOKEN_INVALID;
@@ -25,7 +26,7 @@ router.get('', async (req, res) => {
   }
   // 적합한 토큰이면
   userId = token.user_id;
-
+  logger.info(userId);
   // access 토큰 발급
   result.success = true;
   result.access_token = await tokens.access.sign(userId);

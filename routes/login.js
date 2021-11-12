@@ -3,6 +3,8 @@ const app = express();
 const router = express.Router();
 const User = require('../models/user');
 const tokens = require('../modules/token');
+const logger = require('../modules/log_winston');
+
 // Token 실패 코드
 const TOKEN_EXPIRED = require('../modules/token').TOKEN_EXPIRED;
 const TOKEN_INVALID = require('../modules/token').TOKEN_INVALID;
@@ -39,7 +41,7 @@ router
         login_result.refresh_token = await tokens.refresh.sign(user_id);
         login_result.access_token = await tokens.access.sign(user_id);
         // nickname, student_id, user_id, univ_cert_status 반환
-        console.log(user_in_db);
+        logger.info(JSON.stringify(user_in_db.dataValues));
         login_result.user = {};
         login_result.user.nickname =
           user_in_db.univ_cert_status === 0
@@ -57,7 +59,7 @@ router
         login_result.description = '아이디 또는 비밀번호가 일치하지 않습니다.';
       }
     } catch (err) {
-      console.error(err);
+      logger.error(err);
     }
     res.json(login_result);
   })
@@ -97,7 +99,7 @@ router
         login_result.success = true;
 
         // nickname, student_id, user_id, univ_cert_status 반환
-        console.log(user_in_db);
+        logger.info(JSON.stringify(user_in_db.dataValues));
         login_result.user = {};
         login_result.user.nickname =
           user_in_db.univ_cert_status === 0
@@ -115,7 +117,7 @@ router
         login_result.description = '해당 계정이 존재하지 않습니다. ';
       }
     } catch (err) {
-      console.error(err);
+      logger.error(err);
     }
     res.json(login_result);
   });
