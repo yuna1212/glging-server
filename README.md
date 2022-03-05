@@ -11,7 +11,7 @@
     대학생의 플로깅 문화를 장려하는 안드로이드 앱
     <br />
     <br />
-    <a href="https://github.com/yuna1212/glgingServer">서버 파트</a>
+    <a href="https://github.com/yuna1212/glging-server">서버 파트</a>
     ·
     <a href="https://github.com/Kang-Gumsil/CampusPlogging">모바일 앱 파트</a>
   </p>
