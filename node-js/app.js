@@ -10,7 +10,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 // 라우터 가져오기
-const loginRouter = require('./routes/login');
+const loginRouter = require('./src/login/login_controller');
 const joinRouter = require('./routes/join');
 const schoolAuthenticationRouter = require('./routes/school-authentication');
 const refreshRouter = require('./routes/access-token');
@@ -41,14 +41,8 @@ sequelize
     console.error(err);
   });
 
-app.use(
-  '/PLOGGING-RESULT-IMAGES',
-  express.static('../PLOGGING-RESULT-IMAGES/')
-); // 플로깅 결과 로그에 대한 이미지
-app.use(
-  '/PLOGGING-PROFILE-IMAGES',
-  express.static('../PLOGGING-PROFILE-IMAGES/')
-); // 플로깅 결과 로그에 대한 이미지
+app.use('/PLOGGING-RESULT-IMAGES', express.static('../PLOGGING-RESULT-IMAGES/')); // 플로깅 결과 로그에 대한 이미지
+app.use('/PLOGGING-PROFILE-IMAGES', express.static('../PLOGGING-PROFILE-IMAGES/')); // 플로깅 결과 로그에 대한 이미지
 app.use(express.json());
 app.unsubscribe(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
