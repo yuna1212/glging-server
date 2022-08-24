@@ -26,13 +26,13 @@ class DtoBuilder {
     return this;
   }
 
-  add_user(user) {
+  add_user(user_id) {
     this.#dto.user = {
-      nickname: user.univ_cert_status === 0 ? user.nickname || user.student_id.toString() : null,
-      student_id: user.student_id,
-      user_id: user.user_id,
-      univ_cert_status: user.univ_cert_status,
-      profile_image: 'http://18.119.6.206:8001/PLOGGING-PROFILE-IMAGES/' + user.profile_image,
+      nickname: null,
+      student_id: null,
+      user_id: user_id,
+      univ_cert_status: 2,
+      profile_image: 'http://18.119.6.206:8001/PLOGGING-PROFILE-IMAGES/DEFAULT-IMAGE.jpg',
     };
     return this;
   }
