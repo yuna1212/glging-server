@@ -3,7 +3,7 @@ const DtoBuilder = require('./id_check_dto').DtoBuilder;
 
 const id_check_service = async (user_id) => {
   if (await _exists(user_id)) return _get_successed_dto();
-  return _get_failed_dto;
+  return _get_failed_dto();
 };
 
 const _get_successed_dto = () => {
