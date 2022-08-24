@@ -11,7 +11,7 @@ dotenv.config();
 
 // 라우터 가져오기
 const loginRouter = require('./src/login/login_controller');
-const joinRouter = require('./routes/join');
+const joinRouter = require('./src/join/join_controller');
 const schoolAuthenticationRouter = require('./routes/school-authentication');
 const refreshRouter = require('./routes/access-token');
 const ploggingResultRouter = require('./routes/plogging-result');

@@ -32,3 +32,5 @@ const _get_successed_dto = async (user_id) => {
 const _get_failed_dto = () => {
   return new DtoBuilder().add_description('회원가입 실패.. 다시 시도해주세요.').add_success(false);
 };
+
+module.exports = join_service;

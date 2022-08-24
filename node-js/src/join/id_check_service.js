@@ -26,3 +26,5 @@ const _exists = async (user_id) => {
     return null;
   }
 };
+
+module.exports = id_check_service;
